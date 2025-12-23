@@ -1,40 +1,24 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CR7: The Infinite Journey</title>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 <style>
-    /* --- 1. LUXURY CORE & THEMING --- */
+    /* --- 1. LUXURY CORE --- */
     @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700&family=Oswald:wght@300;400;600&family=Playfair+Display:ital,wght@1,400&display=swap');
 
     :root {
-        /* Dark Mode (Default) */
         --bg-deep: #050505;
         --bg-panel: #0b0b0b;
         --gold: #D4AF37;
         --gold-dim: #8a701e;
+        --rm-blue: #00529F;
         --text-main: #e0e0e0;
         --text-muted: #999;
         --glass: rgba(255, 255, 255, 0.03);
         --glass-border: rgba(212, 175, 55, 0.15);
-        --nav-bg: rgba(5, 5, 5, 0.9);
-        --card-shadow: rgba(0,0,0,0.5);
-        --tl-year: rgba(255,255,255,0.05);
-    }
-
-    [data-theme="light"] {
-        /* Light Mode */
-        --bg-deep: #fcfcfc;
-        --bg-panel: #f2f2f2;
-        --text-main: #1a1a1a;
-        --text-muted: #666;
-        --glass: rgba(0, 0, 0, 0.04);
-        --glass-border: rgba(212, 175, 55, 0.3);
-        --nav-bg: rgba(255, 255, 255, 0.9);
-        --card-shadow: rgba(0,0,0,0.1);
-        --tl-year: rgba(0,0,0,0.05);
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
@@ -45,7 +29,6 @@
         font-family: 'Montserrat', sans-serif;
         overflow-x: hidden;
         line-height: 1.8;
-        transition: background-color 0.5s ease, color 0.5s ease;
     }
 
     /* Scrollbar */
@@ -67,20 +50,30 @@
     }
     @keyframes shine { to { background-position: 200% center; } }
 
+    /* Quote Styles */
+    .quote-box {
+        border-left: 2px solid var(--gold);
+        padding-left: 20px;
+        margin: 20px 0;
+        font-family: 'Playfair Display', serif;
+        font-style: italic;
+        color: #fff;
+        opacity: 0.8;
+        font-size: 1.1rem;
+    }
+
     /* --- 2. NAVIGATION --- */
     nav {
         position: fixed; top: 0; width: 100%; height: 80px;
         display: flex; justify-content: space-between; align-items: center;
         padding: 0 4vw; z-index: 1000;
-        background: var(--nav-bg); backdrop-filter: blur(15px);
-        border-bottom: 1px solid var(--glass-border);
-        transition: background 0.5s ease;
+        background: rgba(5,5,5,0.9); backdrop-filter: blur(15px);
+        border-bottom: 1px solid rgba(255,255,255,0.05);
     }
     .nav-logo { font-size: 1.5rem; letter-spacing: 2px; font-weight: 600; }
-    .nav-links { display: flex; gap: 30px; align-items: center; }
-    
+    .nav-links { display: flex; gap: 30px; }
     .nav-btn {
-        background: none; border: none; color: var(--text-main);
+        background: none; border: none; color: #fff;
         font-family: 'Oswald', sans-serif; font-size: 0.9rem; letter-spacing: 2px;
         opacity: 0.5; transition: 0.3s; position: relative;
     }
@@ -90,23 +83,6 @@
     }
     .nav-btn:hover, .nav-btn.active { opacity: 1; color: var(--gold); }
     .nav-btn:hover::after, .nav-btn.active::after { width: 100%; }
-
-    /* Updated Theme Toggle Button */
-    .theme-toggle {
-        width: 42px; height: 42px; border-radius: 50%;
-        border: 1.5px solid var(--gold);
-        display: flex; align-items: center; justify-content: center;
-        color: var(--gold); font-size: 1rem;
-        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        margin-left: 10px;
-        background-color: var(--bg-deep); /* Always matches current background */
-    }
-    .theme-toggle:hover { 
-        background-color: var(--gold); 
-        color: var(--bg-deep); /* Inverts icon color on hover for contrast */
-        box-shadow: 0 0 15px rgba(212, 175, 55, 0.4); 
-        transform: rotate(15deg);
-    }
 
     /* --- 3. PAGE SYSTEM --- */
     .page-section {
@@ -123,7 +99,7 @@
     .hero {
         height: 90vh; display: flex; flex-direction: column;
         justify-content: center; align-items: center; text-align: center;
-        background: radial-gradient(circle at center, var(--bg-panel) 0%, var(--bg-deep) 70%);
+        background: radial-gradient(circle at center, #1a1a1a 0%, var(--bg-deep) 70%);
         position: relative;
     }
     .hero h1 { font-size: 7vw; line-height: 0.9; margin-bottom: 20px; }
@@ -132,13 +108,13 @@
     .scroll-indicator {
         position: absolute; bottom: 40px; display: flex;
         flex-direction: column; align-items: center; gap: 10px;
-        opacity: 0.6; animation: bounce 2s infinite; color: var(--text-main);
+        opacity: 0.6; animation: bounce 2s infinite;
     }
     .scroll-line { width: 1px; height: 50px; background: var(--gold); }
     @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(10px); } }
 
     .intro-narrative { max-width: 800px; margin: 0 auto; padding: 100px 20px; text-align: center; }
-    .intro-narrative p { font-size: 1.2rem; color: var(--text-muted); margin-bottom: 30px; text-align: justify; }
+    .intro-narrative p { font-size: 1.2rem; color: #ccc; margin-bottom: 30px; text-align: justify; }
     .intro-narrative h2 { font-size: 3rem; margin-bottom: 40px; color: var(--gold); }
 
     /* ================= MIGRATION PAGE ================= */
@@ -153,8 +129,9 @@
     .mig-row.reverse { direction: rtl; }
     .mig-row.reverse .mig-text { direction: ltr; }
     
-    .mig-text h3 { font-size: 2.5rem; margin-bottom: 20px; color: var(--text-main); }
-    .mig-text p { margin-bottom: 20px; color: var(--text-muted); }
+    .mig-text h3 { font-size: 2.5rem; margin-bottom: 20px; color: #fff; }
+    .mig-text p { margin-bottom: 20px; color: #aaa; }
+    .mig-sub-header { color: var(--gold); font-family: 'Oswald'; margin-top: 30px; margin-bottom: 10px; letter-spacing: 1px; }
 
     .arrow-badge {
         border: 1px solid var(--gold); color: var(--gold); padding: 5px 15px;
@@ -166,25 +143,30 @@
         padding: 40px; border-radius: 10px; position: relative;
         transform-style: preserve-3d; transition: transform 0.1s;
         backdrop-filter: blur(10px); top: 50px;
-        box-shadow: 0 20px 40px var(--card-shadow);
     }
     .mig-card-header {
         display: flex; justify-content: space-between; margin-bottom: 30px;
-        border-bottom: 1px solid var(--glass-border); padding-bottom: 15px;
+        border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 15px;
     }
     .mig-icon { font-size: 2rem; color: var(--gold); }
+    .info-split { display: grid; grid-template-columns: 1fr; gap: 20px; }
     .info-block h4 { color: var(--gold); font-size: 0.9rem; margin-bottom: 5px; }
-    .info-block p { font-size: 0.95rem; color: var(--text-muted); }
+    .info-block p { font-size: 0.95rem; color: #aaa; }
 
+    /* Simplified Summary Styles */
     .mig-summary {
-        background: var(--bg-panel);
+        background: linear-gradient(145deg, #0d0d0d, #050505);
         border: 1px solid var(--glass-border);
-        padding: 60px; margin: 100px auto; max-width: 900px;
-        border-radius: 4px; text-align: center;
-        box-shadow: 0 30px 60px var(--card-shadow);
+        padding: 60px;
+        margin: 100px auto;
+        max-width: 900px;
+        border-radius: 4px;
+        text-align: center;
+        box-shadow: 0 30px 60px rgba(0,0,0,0.5);
     }
     .mig-summary h3 { color: var(--gold); font-size: 2rem; margin-bottom: 30px; }
-    .mig-summary p { font-size: 1.1rem; color: var(--text-main); line-height: 1.8; margin-bottom: 20px; }
+    .mig-summary p { font-size: 1.1rem; color: #ddd; line-height: 1.8; margin-bottom: 20px; }
+    .vocab-hint { color: var(--gold); font-weight: 600; }
 
     /* ================= TIMELINE PAGE ================= */
     .timeline-wrap { position: relative; max-width: 1000px; margin: 50px auto; }
@@ -206,22 +188,26 @@
     .tl-left .tl-dot { right: -8px; }
     .tl-right .tl-dot { left: -8px; }
     .tl-content {
-        background: var(--bg-panel); padding: 25px; border-radius: 8px;
-        border: 1px solid var(--glass-border);
+        background: #111; padding: 25px; border-radius: 8px;
+        border: 1px solid rgba(255,255,255,0.1);
     }
     .tl-year {
         font-size: 3.5rem; font-weight: 700; 
-        color: var(--tl-year);
-        position: absolute; top: 10px; pointer-events: none;
+        color: rgba(255,255,255,0.12); /* Slightly more prominent */
+        -webkit-text-stroke: 1px rgba(255, 255, 255, 0.05); /* Added subtle outline */
+        position: absolute; top: 10px;
+        pointer-events: none;
     }
+    .tl-left .tl-year { left: 20px; }
+    .tl-right .tl-year { right: 20px; }
 
     /* ================= COMPARISON PAGE ================= */
     .compare-wrap { max-width: 1400px; margin: 0 auto; padding: 50px 20px; }
     .compare-controls { display: flex; justify-content: center; gap: 15px; margin-bottom: 50px; flex-wrap: wrap; }
     
     .c-btn {
-        background: var(--glass); color: var(--text-main);
-        border: 1px solid var(--glass-border); padding: 12px 30px;
+        background: rgba(255,255,255,0.05); color: #fff;
+        border: 1px solid rgba(255,255,255,0.1); padding: 12px 30px;
         font-family: 'Oswald'; cursor: none; transition: 0.3s;
     }
     .c-btn:hover, .c-btn.active { background: var(--gold); color: #000; }
@@ -241,6 +227,13 @@
         font-size: 2rem; font-family: 'Oswald'; color: var(--gold); height: 100%;
     }
     
+    .stat-mini-box {
+        margin-top: 20px; border-top: 1px solid rgba(255,255,255,0.1);
+        padding-top: 20px; text-align: left; font-size: 0.8rem;
+    }
+    .stat-row { display: flex; justify-content: space-between; margin-bottom: 5px; color: #888; }
+    .stat-val { color: #fff; font-weight: 600; }
+
     /* --- TRANSITION BUTTON STYLE --- */
     .transition-btn {
         background: transparent; border: 1px solid var(--gold); color: var(--gold);
@@ -261,21 +254,18 @@
         position: fixed; pointer-events: none; z-index: 9999;
     }
 
-    footer {
-        text-align: center; padding: 50px; color: var(--text-muted); 
-        border-top: 1px solid var(--glass-border);
-    }
-
     /* Responsive */
     @media (max-width: 768px) {
         .hero h1 { font-size: 15vw; }
         .mig-row, .mig-row.reverse { grid-template-columns: 1fr; direction: ltr; gap: 40px; }
+        .mig-row.reverse .mig-text { direction: ltr; }
         .arena { grid-template-columns: 1fr; gap: 50px; }
         .vs { transform: rotate(90deg); margin: 20px 0; }
         .timeline-wrap::after { left: 20px; }
         .tl-item { width: 100%; padding-left: 50px; padding-right: 0; text-align: left; }
         .tl-left, .tl-right { left: 0; }
         .tl-left .tl-dot, .tl-right .tl-dot { left: 11px; }
+        .mig-summary { padding: 30px; }
     }
 </style>
 </head>
@@ -291,9 +281,6 @@
         <button class="nav-btn" onclick="showPage('migration', this)">MIGRATION</button>
         <button class="nav-btn" onclick="showPage('timeline', this)">TIMELINE</button>
         <button class="nav-btn" onclick="showPage('comparison', this)">THE PARALLEL</button>
-        <button class="theme-toggle" onclick="toggleTheme()" id="themeSwitcher">
-            <i class="fas fa-sun" id="themeIcon"></i>
-        </button>
     </div>
 </nav>
 
@@ -310,23 +297,108 @@
     <div class="intro-narrative">
         <h2>THE ORIGIN STORY</h2>
         <p>It began on the steep streets of Funchal, Madeira. Cristiano Ronaldo was not born into greatness; he was born into obscurity. The youngest child of a cook and a gardener, his world was small, but his vision was infinite.</p>
-        <p>The "Boy from Madeira" moniker is not just a nickname; it is a reminder of the first and most painful migration of his life. At age 12, he left his island to move to Lisbon alone. He cried every day.</p>
+        <p>The "Boy from Madeira" moniker is not just a nickname; it is a reminder of the first and most painful migration of his life. At age 12, he left his island to move to Lisbon alone. He cried every day. He was mocked for his accent. He had no money, only a burning desire to be the best.</p>
+        <p>That isolation forged a warrior. It taught him that to migrate is to grow. To leave comfort is to find power. This website documents the geographical and psychological journey of a man who refused to stay where he began.</p>
         <button class="nav-btn" style="border:1px solid var(--gold); padding: 15px 30px; opacity: 1; margin-top: 30px;" onclick="showPage('migration', document.querySelectorAll('.nav-btn')[1])">
             WITNESS THE MIGRATION
         </button>
     </div>
 </section>
 
-<!-- Sections remain the same structure ... -->
+<!-- ================= 2. MIGRATION STORY ================= -->
 <section id="migration" class="page-section">
-    <!-- ... same content ... -->
     <div class="migration-container">
         <div class="mig-header">
             <h2 class="gold-text">THE ODYSSEY</h2>
+            <p class="serif" style="color:#888;">"I am not a player of one place. I am a citizen of the world."</p>
         </div>
+
+        <!-- 1. Madeira to Lisbon -->
+        <div class="mig-row">
+            <div class="mig-text">
+                <span class="arrow-badge">MADEIRA ➔ LISBON</span>
+                <h3>THE EXILE OF CHILDHOOD</h3>
+                <div class="quote-box">"I cried every day. I wanted to go home."</div>
+                <p>Leaving home at 12 years old was the hardest choice of his life. In Lisbon, he was an outsider, teased for his island accent. This forced him to become strong early, turning his loneliness into hard work.</p>
+            </div>
+            <div class="mig-card">
+                <div class="mig-card-header">
+                    <i class="fas fa-suitcase mig-icon"></i>
+                    <span style="font-family:'Oswald'; color:#666;">1997 - 2003</span>
+                </div>
+                <div class="info-block">
+                    <h4>THE TRANSFORMATION</h4>
+                    <p>He moved from a warm family home to a cold academy room. This is where his "never quit" attitude was born.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. Lisbon to Manchester -->
+        <div class="mig-row reverse">
+            <div class="mig-text">
+                <span class="arrow-badge">LISBON ➔ MANCHESTER</span>
+                <h3>INTO THE STORM</h3>
+                <div class="quote-box">"Ferguson was my father in football."</div>
+                <p>He moved to England as a skinny teenager. He had to adapt to a faster, more physical game. He transformed his body and his mind, becoming the best player in the world by the time he left.</p>
+            </div>
+            <div class="mig-card">
+                <div class="mig-card-header">
+                    <i class="fas fa-umbrella mig-icon"></i>
+                    <span style="font-family:'Oswald'; color:#666;">2003 - 2009</span>
+                </div>
+                <div class="info-block">
+                    <h4>THE GROWTH</h4>
+                    <p>He arrived as a trickster and left as a machine. He learned that to win, you must work harder than anyone else.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. Manchester to Madrid -->
+        <div class="mig-row">
+            <div class="mig-text">
+                <span class="arrow-badge">MANCHESTER ➔ MADRID</span>
+                <h3>THE ROYAL ASCENSION</h3>
+                <div class="quote-box">"I came here to be the best in history."</div>
+                <p>Moving to Real Madrid was about taking the biggest risk. He entered the most pressured club in the world and broke every record. He didn't just play in Spain; he dominated it.</p>
+            </div>
+            <div class="mig-card">
+                <div class="mig-card-header">
+                    <i class="fas fa-crown mig-icon"></i>
+                    <span style="font-family:'Oswald'; color:#666;">2009 - 2018</span>
+                </div>
+                <div class="info-block">
+                    <h4>THE PEAK</h4>
+                    <p>450 goals in 438 games. He proved that no matter where he goes, he will always be at the top.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. Europe to Saudi Arabia -->
+        <div class="mig-row reverse">
+            <div class="mig-text">
+                <span class="arrow-badge">EUROPE ➔ SAUDI ARABIA</span>
+                <h3>A NEW HORIZON</h3>
+                <div class="quote-box">"My work in Europe is done."</div>
+                <p>Ronaldo made a bold move to Asia, changing the face of football in the Middle East. He proved that a legend can build a new kingdom anywhere, regardless of culture or climate.</p>
+            </div>
+            <div class="mig-card">
+                <div class="mig-card-header">
+                    <i class="fas fa-globe-asia mig-icon"></i>
+                    <span style="font-family:'Oswald'; color:#666;">2023 - Present</span>
+                </div>
+                <div class="info-block">
+                    <h4>THE PIONEER</h4>
+                    <p>He opened the door for other world-class stars to move to the Saudi Pro League, showing his global influence.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SUMMARY -->
         <div class="mig-summary">
             <h3>THE ARCHITECT OF ADAPTATION</h3>
-            <p>From the small streets of Madeira to the huge stadiums of Riyadh, his journey teaches us that you must have the courage to leave where you are to become who you want to be.</p>
+            <p>Cristiano Ronaldo’s career is a story of constant change. He never stayed in his comfort zone. By moving from country to country, he showed incredible <span class="vocab-hint">resilience</span> (the ability to recover quickly from difficult situations).</p>
+            <p>From the small streets of Madeira to the huge stadiums of Riyadh, his journey teaches us that you must have the courage to leave where you are to become who you want to be. He didn't just move for football; he moved to prove he could win anywhere.</p>
+            
             <button class="transition-btn" onclick="showPage('timeline', document.querySelectorAll('.nav-btn')[2])">
                 VIEW THE TIMELINE <i class="fas fa-arrow-right" style="margin-left:10px;"></i>
             </button>
@@ -334,14 +406,19 @@
     </div>
 </section>
 
+<!-- ================= 3. TIMELINE ================= -->
 <section id="timeline" class="page-section">
+    <div class="mig-header">
+        <h2 class="gold-text">CHRONICLE</h2>
+        <p class="serif" style="color:#888;">The timeline of a legend.</p>
+    </div>
     <div class="timeline-wrap">
         <div class="tl-item tl-left">
             <div class="tl-year">2002</div>
             <div class="tl-dot"></div>
             <div class="tl-content">
                 <h3 style="color:#26a36c">Sporting CP</h3>
-                <p style="color:var(--text-muted); margin-top:5px;">Where it all began.</p>
+                <p style="color:#888; margin-top:5px;">Where it all began. Debut at 17.</p>
             </div>
         </div>
         <div class="tl-item tl-right">
@@ -349,7 +426,31 @@
             <div class="tl-dot"></div>
             <div class="tl-content">
                 <h3 style="color:#da291c">Man Utd</h3>
-                <p style="color:var(--text-muted); margin-top:5px;">Migrated to England.</p>
+                <p style="color:#888; margin-top:5px;">Migrated to England. Became a global star.</p>
+            </div>
+        </div>
+        <div class="tl-item tl-left">
+            <div class="tl-year">2009</div>
+            <div class="tl-dot"></div>
+            <div class="tl-content">
+                <h3 style="color:#00529F">Real Madrid</h3> <!-- Specific Blue -->
+                <p style="color:#888; margin-top:5px;">The King of Spain. 4 Champions Leagues.</p>
+            </div>
+        </div>
+        <div class="tl-item tl-right">
+            <div class="tl-year">2018</div>
+            <div class="tl-dot"></div>
+            <div class="tl-content">
+                <h3 style="color:#fff">Juventus</h3>
+                <p style="color:#888; margin-top:5px;">Conquered Italy. Two Serie A titles.</p>
+            </div>
+        </div>
+        <div class="tl-item tl-left">
+            <div class="tl-year">2023</div>
+            <div class="tl-dot"></div>
+            <div class="tl-content">
+                <h3 style="color:#FBC02D">Al Nassr</h3>
+                <p style="color:#888; margin-top:5px;">A new chapter in the East.</p>
             </div>
         </div>
     </div>
@@ -358,65 +459,69 @@
     </button>
 </section>
 
+<!-- ================= 4. COMPARISON ================= -->
 <section id="comparison" class="page-section">
+    <div class="mig-header">
+        <h2 class="gold-text">THE PARALLEL JOURNEYS</h2>
+        <p class="serif" style="color:#888;">Cristiano Ronaldo vs. Virat Kohli</p>
+    </div>
+
     <div class="compare-wrap">
         <div class="compare-controls">
             <button class="c-btn active" onclick="setCompare('roots')">THE ROOTS</button>
+            <button class="c-btn" onclick="setCompare('big_move')">THE BIG MOVE</button>
             <button class="c-btn" onclick="setCompare('adaptation')">ADAPTATION</button>
+            <button class="c-btn" onclick="setCompare('current')">CURRENT HOME</button>
         </div>
+
         <div class="arena">
             <div class="fighter">
                 <div class="f-img" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/8/8c/Cristiano_Ronaldo_2018.jpg');"></div>
                 <h3>CRISTIANO</h3>
-                <div id="cr-content" style="color:var(--text-muted); margin-top:20px;"></div>
+                <div id="cr-content" style="color:#aaa; font-size:0.95rem; margin-top:20px; line-height: 1.6;"></div>
             </div>
             <div class="vs">VS</div>
             <div class="fighter">
                 <div class="f-img" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/e/ef/Virat_Kohli_during_the_India_vs_Aus_4th_Test_match_at_Narendra_Modi_Stadium_on_09_March_2023.jpg');"></div>
                 <h3>KOHLI</h3>
-                <div id="vk-content" style="color:var(--text-muted); margin-top:20px;"></div>
+                <div id="vk-content" style="color:#aaa; font-size:0.95rem; margin-top:20px; line-height: 1.6;"></div>
             </div>
         </div>
     </div>
 </section>
 
-<footer>
+<footer style="text-align:center; padding:50px; color:#444; border-top:1px solid #111;">
     THE MIGRATION ARCHIVE &copy; 2024
 </footer>
 
 <script>
-    // --- THEME TOGGLE LOGIC ---
-    function toggleTheme() {
-        const html = document.documentElement;
-        const icon = document.getElementById('themeIcon');
-        const isDark = html.getAttribute('data-theme') === 'dark';
-        
-        if (isDark) {
-            html.setAttribute('data-theme', 'light');
-            icon.classList.replace('fa-sun', 'fa-moon');
-        } else {
-            html.setAttribute('data-theme', 'dark');
-            icon.classList.replace('fa-moon', 'fa-sun');
-        }
-    }
-
     // --- COMPARISON DATA ---
     const data = {
         roots: {
-            cr: "Born in Madeira. He grew up in poverty on a small island, far from the mainland.",
-            vk: "Born in Delhi. Growing up in the busy streets of India's capital made him tough."
+            cr: "Born in Madeira. He grew up in poverty on a small island, far from the mainland. This isolation gave him the hunger to escape and succeed.",
+            vk: "Born in Delhi. Growing up in the busy streets of India's capital made him aggressive and tough. He learned to fight for every run."
+        },
+        big_move: {
+            cr: "Moved to Lisbon at 12 alone. It was a terrifying move that forced him to grow up instantly and focus only on football.",
+            vk: "His move was internal. When his father passed away during a match, he stayed and played. He moved from boy to man in one night."
         },
         adaptation: {
-            cr: "He changed his style for every country. Speed in England, goals in Spain.",
-            vk: "He changed the culture of Indian cricket. He introduced elite fitness."
+            cr: "He changed his style for every country. Speed in England, goals in Spain, and tactics in Italy.",
+            vk: "He changed the culture of Indian cricket. He introduced elite fitness and a strict diet to a whole nation."
+        },
+        current: {
+            cr: "Living in Saudi Arabia. He is the face of a new league, living in the spotlight and leading a football revolution.",
+            vk: "Reported to be spending more time in London. He seeks a quiet life away from the massive fame he has in India."
         }
     };
 
     function setCompare(key) {
         document.querySelectorAll('.c-btn').forEach(b => b.classList.remove('active'));
         if(event) event.target.classList.add('active');
-        document.getElementById('cr-content').innerHTML = data[key].cr;
-        document.getElementById('vk-content').innerHTML = data[key].vk;
+        const crPanel = document.getElementById('cr-content');
+        const vkPanel = document.getElementById('vk-content');
+        crPanel.innerHTML = data[key].cr;
+        vkPanel.innerHTML = data[key].vk;
     }
     setCompare('roots');
 
@@ -450,6 +555,22 @@
         dot.style.left = (e.clientX - 3) + 'px';
         dot.style.top = (e.clientY - 3) + 'px';
     });
+
+    // --- CARD TILT ---
+    document.querySelectorAll('.mig-card').forEach(card => {
+        card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            const rotX = ((y - rect.height/2) / 20) * -1;
+            const rotY = ((x - rect.width/2) / 20);
+            card.style.transform = `perspective(1000px) rotateX(${rotX}deg) rotateY(${rotY}deg)`;
+        });
+        card.addEventListener('mouseleave', () => {
+            card.style.transform = `perspective(1000px) rotateX(0) rotateY(0)`;
+        });
+    });
 </script>
 </body>
 </html>
+
