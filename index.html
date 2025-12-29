@@ -275,16 +275,14 @@
     }
     .transition-btn:hover { background: var(--gold); color: #000; box-shadow: 0 0 20px rgba(212, 175, 55, 0.4); }
 
-    /* --- CUSTOM CURSOR --- */
+    /* --- CUSTOM FOOTBALL CURSOR --- */
     .cursor {
-        width: 30px; height: 30px; border: 1px solid var(--gold); border-radius: 50%;
         position: fixed; pointer-events: none; z-index: 9999;
         mix-blend-mode: difference; transition: transform 0.1s;
+        color: var(--gold); font-size: 25px; /* Size of the football */
+        display: flex; align-items: center; justify-content: center;
     }
-    .cursor-dot {
-        width: 6px; height: 6px; background: var(--gold); border-radius: 50%;
-        position: fixed; pointer-events: none; z-index: 9999;
-    }
+    .cursor-dot { display: none; } /* Hide dot to focus on football */
 
     /* Responsive */
     @media (max-width: 768px) {
@@ -304,7 +302,9 @@
 </head>
 <body data-theme="dark">
 
-<div class="cursor" id="cursor"></div>
+<div class="cursor" id="cursor">
+    <i class="fas fa-futbol"></i>
+</div>
 <div class="cursor-dot" id="cursorDot"></div>
 
 <button class="theme-toggle" id="themeToggle" title="Toggle Eclipse Mode">
@@ -604,8 +604,8 @@
     const cursor = document.getElementById('cursor');
     const dot = document.getElementById('cursorDot');
     document.addEventListener('mousemove', (e) => {
-        cursor.style.left = (e.clientX - 15) + 'px';
-        cursor.style.top = (e.clientY - 15) + 'px';
+        cursor.style.left = (e.clientX - 12) + 'px'; // Centered for the football icon
+        cursor.style.top = (e.clientY - 12) + 'px';
         dot.style.left = (e.clientX - 3) + 'px';
         dot.style.top = (e.clientY - 3) + 'px';
     });
