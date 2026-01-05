@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -60,7 +61,7 @@
     /* Typography */
     h1, h2, h3, .nav-logo { font-family: 'Oswald', sans-serif; text-transform: uppercase; }
     .serif { font-family: 'Playfair Display', serif; }
-    
+
     .gold-text {
         color: var(--gold);
         background: linear-gradient(to right, #D4AF37, #F4DF89, #D4AF37);
@@ -140,7 +141,7 @@
     }
     .hero h1 { font-size: 7vw; line-height: 0.9; margin-bottom: 20px; }
     .hero-sub { font-size: 1.5rem; letter-spacing: 5px; color: var(--gold); opacity: 0.8; }
-    
+
     .scroll-indicator {
         position: absolute; bottom: 40px; display: flex;
         flex-direction: column; align-items: center; gap: 10px;
@@ -164,7 +165,7 @@
     }
     .mig-row.reverse { direction: rtl; }
     .mig-row.reverse .mig-text { direction: ltr; }
-    
+
     .mig-text h3 { font-size: 2.5rem; margin-bottom: 20px; color: var(--text-main); }
     .mig-text p { margin-bottom: 20px; color: var(--text-muted); }
     .mig-sub-header { color: var(--gold); font-family: 'Oswald'; margin-top: 30px; margin-bottom: 10px; letter-spacing: 1px; }
@@ -243,16 +244,16 @@
     /* ================= COMPARISON PAGE ================= */
     .compare-wrap { max-width: 1400px; margin: 0 auto; padding: 50px 20px; }
     .compare-controls { display: flex; justify-content: center; gap: 15px; margin-bottom: 50px; flex-wrap: wrap; }
-    
+
     .c-btn {
         background: var(--glass); color: var(--text-main);
         border: 1px solid var(--glass-border); padding: 12px 30px;
         font-family: 'Oswald'; cursor: none; transition: 0.3s;
     }
     .c-btn:hover, .c-btn.active { background: var(--gold); color: #000; }
-    
+
     .arena { display: grid; grid-template-columns: 1fr 0.1fr 1fr; gap: 30px; align-items: start; }
-    
+
     .fighter {
         background: var(--glass); padding: 40px; text-align: center;
         border: 1px solid var(--glass-border); min-height: 450px; transition: 0.4s;
@@ -322,6 +323,7 @@
 </nav>
 
 <!-- ================= 1. HOME ================= -->
+
 <section id="home" class="page-section active-page">
     <div class="hero">
         <h1>BEYOND<br>BORDERS</h1>
@@ -343,6 +345,7 @@
 </section>
 
 <!-- ================= 2. MIGRATION STORY ================= -->
+
 <section id="migration" class="page-section">
     <div class="migration-container">
         <div class="mig-header">
@@ -407,7 +410,67 @@
             </div>
         </div>
 
+        <!-- NEW: MADRID TO TURIN -->
         <div class="mig-row reverse">
+            <div class="mig-text">
+                <span class="arrow-badge">MADRID ➔ TURIN</span>
+                <h3>THE ITALIAN CHALLENGE</h3>
+                <div class="quote-box">"I need a new challenge to keep my flame alive."</div>
+                <p>Seeking to conquer a third major league, Ronaldo moved to Juventus. In Italy, he adapted to a highly tactical and defensive style, proving his versatility and discipline in the shadows of the Alps.</p>
+            </div>
+            <div class="mig-card">
+                <div class="mig-card-header">
+                    <i class="fas fa-mountain mig-icon"></i>
+                    <span style="font-family:'Oswald'; opacity: 0.6;">2018 - 2021</span>
+                </div>
+                <div class="info-block">
+                    <h4>THE ADAPTATION</h4>
+                    <p>He mastered the art of Italian football, winning two Serie A titles and becoming the fastest player to reach 50 goals in the league's history.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- NEW: TURIN TO MANCHESTER -->
+        <div class="mig-row">
+            <div class="mig-text">
+                <span class="arrow-badge">TURIN ➔ MANCHESTER</span>
+                <h3>THE HOMECOMING</h3>
+                <div class="quote-box">"I'm back where I belong. This is for Sir Alex."</div>
+                <p>In a move that shocked the world, the legend returned to Old Trafford. It was an emotional migration back to the city where he first became a star, bringing his journey full circle for one last dance in the Premier League.</p>
+            </div>
+            <div class="mig-card">
+                <div class="mig-card-header">
+                    <i class="fas fa-home mig-icon"></i>
+                    <span style="font-family:'Oswald'; opacity: 0.6;">2021 - 2022</span>
+                </div>
+                <div class="info-block">
+                    <h4>THE LEGACY REKINDLED</h4>
+                    <p>Even in a struggling team, he remained the top scorer, proving that his elite mentality was unaffected by age or environment.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- NEW: FREE AGENT -->
+        <div class="mig-row reverse">
+            <div class="mig-text">
+                <span class="arrow-badge">MANCHESTER ➔ THE UNKNOWN</span>
+                <h3>THE ELITE NOMAD</h3>
+                <div class="quote-box">"Silence is sometimes the best answer."</div>
+                <p>Following his departure from Manchester, Ronaldo entered a rare period as a free agent. He returned to Madrid, training alone at the Valdebebas facilities to maintain his superhuman fitness while the world speculated on his next move.</p>
+            </div>
+            <div class="mig-card">
+                <div class="mig-card-header">
+                    <i class="fas fa-hourglass-half mig-icon"></i>
+                    <span style="font-family:'Oswald'; opacity: 0.6;">Late 2022</span>
+                </div>
+                <div class="info-block">
+                    <h4>THE CALM</h4>
+                    <p>He spent his time in Madrid, focusing on family and recovery, demonstrating that a true professional never stops working, even without a badge on his chest.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="mig-row">
             <div class="mig-text">
                 <span class="arrow-badge">EUROPE ➔ SAUDI ARABIA</span>
                 <h3>A NEW HORIZON</h3>
@@ -439,6 +502,7 @@
 </section>
 
 <!-- ================= 3. TIMELINE ================= -->
+
 <section id="timeline" class="page-section">
     <div class="mig-header">
         <h2 class="gold-text">CHRONICLE</h2>
@@ -492,6 +556,7 @@
 </section>
 
 <!-- ================= 4. COMPARISON ================= -->
+
 <section id="comparison" class="page-section">
     <div class="mig-header">
         <h2 class="gold-text">THE PARALLEL JOURNEYS</h2>
@@ -560,7 +625,7 @@
         },
         big_move: {
             cr: "Moved to Lisbon at 12 alone. It was a terrifying move that forced him to grow up instantly and focus only on football.",
-            vk: "His move was internal. When his father passed away during a match, he stayed and played. He moved from boy to man in one night."
+            vk: "Migrated his primary base to London. Seeking a life of privacy away from the Indian spotlight, he chose the UK to find peace and protect his family."
         },
         adaptation: {
             cr: "He changed his style for every country. Speed in England, goals in Spain, and tactics in Italy.",
@@ -624,5 +689,6 @@
         });
     });
 </script>
+
 </body>
 </html>
