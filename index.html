@@ -84,7 +84,7 @@
         font-size: 1.1rem;
     }
 
-    /* --- 2. NAVIGATION --- */
+    /* --- 2. NAVIGATION (RESTORED TO OG FONT) --- */
     nav {
         position: fixed; top: 0; width: 100%; height: 80px;
         display: flex; justify-content: space-between; align-items: center;
@@ -93,12 +93,19 @@
         border-bottom: 1px solid var(--glass-border);
         transition: background var(--transition);
     }
-    .nav-logo { font-size: 1.5rem; letter-spacing: 2px; font-weight: 600; }
+    .nav-logo { 
+        font-family: 'Oswald', sans-serif; 
+        font-size: 1.5rem; 
+        letter-spacing: 2px; 
+        font-weight: 600; 
+        text-transform: uppercase;
+    }
     .nav-links { display: flex; gap: 30px; }
     .nav-btn {
         background: none; border: none; color: var(--text-main);
         font-family: 'Oswald', sans-serif; font-size: 0.9rem; letter-spacing: 2px;
         opacity: 0.5; transition: 0.3s; position: relative;
+        text-transform: uppercase;
     }
     .nav-btn::after {
         content: ''; position: absolute; bottom: -5px; left: 0; width: 0%;
@@ -186,7 +193,6 @@
         border-bottom: 1px solid var(--glass-border); padding-bottom: 15px;
     }
     .mig-icon { font-size: 2rem; color: var(--gold); }
-    .info-split { display: grid; grid-template-columns: 1fr; gap: 20px; }
     .info-block h4 { color: var(--gold); font-size: 0.9rem; margin-bottom: 5px; }
     .info-block p { font-size: 0.95rem; color: var(--text-muted); }
 
@@ -203,7 +209,19 @@
     }
     .mig-summary h3 { color: var(--gold); font-size: 2rem; margin-bottom: 30px; }
     .mig-summary p { font-size: 1.1rem; color: var(--text-main); line-height: 1.8; margin-bottom: 20px; }
-    .vocab-hint { color: var(--gold); font-weight: 600; }
+
+    /* VOCAB LINKS STYLE */
+    .vocab-hint {
+        color: var(--gold);
+        font-weight: 600;
+        text-decoration: none;
+        border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+        transition: 0.3s;
+    }
+    .vocab-hint:hover {
+        border-bottom: 1px solid var(--gold);
+        text-shadow: 0 0 10px rgba(212, 175, 55, 0.4);
+    }
 
     /* ================= TIMELINE PAGE ================= */
     .timeline-wrap { position: relative; max-width: 1000px; margin: 50px auto; }
@@ -276,14 +294,26 @@
     }
     .transition-btn:hover { background: var(--gold); color: #000; box-shadow: 0 0 20px rgba(212, 175, 55, 0.4); }
 
+    /* ================= GLOSSARY PAGE ================= */
+    .glossary-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 30px; padding: 50px 0; }
+    .gloss-card {
+        background: var(--glass); border: 1px solid var(--glass-border); padding: 35px;
+        border-radius: 8px; transition: 0.5s;
+    }
+    .gloss-card:hover { background: rgba(212, 175, 55, 0.05); transform: translateY(-5px); }
+    .gloss-word { font-family: 'Oswald'; color: var(--gold); font-size: 1.6rem; margin-bottom: 12px; letter-spacing: 1px; }
+    .gloss-def { font-size: 0.95rem; color: var(--text-muted); margin-bottom: 15px; }
+    .gloss-ctx { font-size: 0.85rem; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.05); }
+    .ctx-tag { color: var(--gold); font-weight: 700; text-transform: uppercase; font-size: 0.75rem; margin-bottom: 5px; display: block; }
+
     /* --- CUSTOM FOOTBALL CURSOR --- */
     .cursor {
         position: fixed; pointer-events: none; z-index: 9999;
         mix-blend-mode: difference; transition: transform 0.1s;
-        color: var(--gold); font-size: 25px; /* Size of the football */
+        color: var(--gold); font-size: 25px; 
         display: flex; align-items: center; justify-content: center;
     }
-    .cursor-dot { display: none; } /* Hide dot to focus on football */
+    .cursor-dot { display: none; }
 
     /* Responsive */
     @media (max-width: 768px) {
@@ -319,6 +349,7 @@
         <button class="nav-btn" onclick="showPage('migration', this)">MIGRATION</button>
         <button class="nav-btn" onclick="showPage('timeline', this)">TIMELINE</button>
         <button class="nav-btn" onclick="showPage('comparison', this)">THE PARALLEL</button>
+        <button class="nav-btn" onclick="showPage('glossary', this)">GLOSSARY</button>
     </div>
 </nav>
 
@@ -349,14 +380,14 @@
 <section id="migration" class="page-section">
     <div class="migration-container">
         <div class="mig-header">
-            <h2 class="gold-text">THE ODYSSEY</h2>
+            <h2 class="gold-text"><a href="javascript:void(0)" onclick="goToGlossary('odyssey')" class="vocab-hint" style="font-size:4rem; border:none;">THE ODYSSEY</a></h2>
             <p class="serif">"I am not a player of one place. I am a citizen of the world."</p>
         </div>
 
         <div class="mig-row">
             <div class="mig-text">
                 <span class="arrow-badge">MADEIRA ➔ LISBON</span>
-                <h3>THE EXILE OF CHILDHOOD</h3>
+                <h3>THE <a href="javascript:void(0)" onclick="goToGlossary('exile')" class="vocab-hint">EXILE</a> OF CHILDHOOD</h3>
                 <div class="quote-box">"I cried every day. I wanted to go home."</div>
                 <p>Leaving home at 12 years old was the hardest choice of his life. In Lisbon, he was an outsider, teased for his island accent. This forced him to become strong early, turning his loneliness into hard work.</p>
             </div>
@@ -394,7 +425,7 @@
         <div class="mig-row">
             <div class="mig-text">
                 <span class="arrow-badge">MANCHESTER ➔ MADRID</span>
-                <h3>THE ROYAL ASCENSION</h3>
+                <h3>THE ROYAL <a href="javascript:void(0)" onclick="goToGlossary('ascension')" class="vocab-hint">ASCENSION</a></h3>
                 <div class="quote-box">"I came here to be the best in history."</div>
                 <p>Moving to Real Madrid was about taking the biggest risk. He entered the most pressured club in the world and broke every record. He didn't just play in Spain; he dominated it.</p>
             </div>
@@ -410,13 +441,12 @@
             </div>
         </div>
 
-        <!-- NEW: MADRID TO TURIN -->
         <div class="mig-row reverse">
             <div class="mig-text">
                 <span class="arrow-badge">MADRID ➔ TURIN</span>
                 <h3>THE ITALIAN CHALLENGE</h3>
                 <div class="quote-box">"I need a new challenge to keep my flame alive."</div>
-                <p>Seeking to conquer a third major league, Ronaldo moved to Juventus. In Italy, he adapted to a highly tactical and defensive style, proving his versatility and discipline in the shadows of the Alps.</p>
+                <p>Seeking to conquer a third major league, Ronaldo moved to Juventus. In Italy, he adapted to a highly tactical and defensive style, proving his <a href="javascript:void(0)" onclick="goToGlossary('versatility')" class="vocab-hint">versatility</a> and discipline in the shadows of the Alps.</p>
             </div>
             <div class="mig-card">
                 <div class="mig-card-header">
@@ -430,13 +460,12 @@
             </div>
         </div>
 
-        <!-- NEW: TURIN TO MANCHESTER -->
         <div class="mig-row">
             <div class="mig-text">
                 <span class="arrow-badge">TURIN ➔ MANCHESTER</span>
                 <h3>THE HOMECOMING</h3>
                 <div class="quote-box">"I'm back where I belong. This is for Sir Alex."</div>
-                <p>In a move that shocked the world, the legend returned to Old Trafford. It was an emotional migration back to the city where he first became a star, bringing his journey full circle for one last dance in the Premier League.</p>
+                <p>In a move that shocked the world, the legend returned to Old Trafford. It was an emotional migration back to the city where he first became a star, bringing his journey <a href="javascript:void(0)" onclick="goToGlossary('rekindled')" class="vocab-hint">rekindled</a> for one last dance in the Premier League.</p>
             </div>
             <div class="mig-card">
                 <div class="mig-card-header">
@@ -450,11 +479,10 @@
             </div>
         </div>
 
-        <!-- NEW: FREE AGENT -->
         <div class="mig-row reverse">
             <div class="mig-text">
                 <span class="arrow-badge">MANCHESTER ➔ THE UNKNOWN</span>
-                <h3>THE ELITE NOMAD</h3>
+                <h3>THE <a href="javascript:void(0)" onclick="goToGlossary('elite')" class="vocab-hint">ELITE</a> <a href="javascript:void(0)" onclick="goToGlossary('nomad')" class="vocab-hint">NOMAD</a></h3>
                 <div class="quote-box">"Silence is sometimes the best answer."</div>
                 <p>Following his departure from Manchester, Ronaldo entered a rare period as a free agent. He returned to Madrid, training alone at the Valdebebas facilities to maintain his superhuman fitness while the world speculated on his next move.</p>
             </div>
@@ -475,7 +503,7 @@
                 <span class="arrow-badge">EUROPE ➔ SAUDI ARABIA</span>
                 <h3>A NEW HORIZON</h3>
                 <div class="quote-box">"My work in Europe is done."</div>
-                <p>Ronaldo made a bold move to Asia, changing the face of football in the Middle East. He proved that a legend can build a new kingdom anywhere, regardless of culture or climate.</p>
+                <p>Ronaldo made a bold move to Asia, changing the face of football in the Middle East. He proved that a legend can build a new kingdom anywhere, regardless of culture or climate, acting as a global <a href="javascript:void(0)" onclick="goToGlossary('pioneer')" class="vocab-hint">pioneer</a>.</p>
             </div>
             <div class="mig-card">
                 <div class="mig-card-header">
@@ -490,8 +518,8 @@
         </div>
 
         <div class="mig-summary">
-            <h3>THE ARCHITECT OF ADAPTATION</h3>
-            <p>Cristiano Ronaldo’s career is a story of constant change. He never stayed in his comfort zone. By moving from country to country, he showed incredible <span class="vocab-hint">resilience</span>.</p>
+            <h3>THE <a href="javascript:void(0)" onclick="goToGlossary('architect')" class="vocab-hint">ARCHITECT</a> OF ADAPTATION</h3>
+            <p>Cristiano Ronaldo’s career is a story of constant change. He never stayed in his comfort zone. By moving from country to country, he showed incredible <a href="javascript:void(0)" onclick="goToGlossary('resilience')" class="vocab-hint">resilience</a>.</p>
             <p>From the small streets of Madeira to the huge stadiums of Riyadh, his journey teaches us that you must have the courage to leave where you are to become who you want to be.</p>
             
             <button class="transition-btn" onclick="showPage('timeline', document.querySelectorAll('.nav-btn')[2])">
@@ -587,6 +615,83 @@
     </div>
 </section>
 
+<!-- ================= 5. GLOSSARY ================= -->
+
+<section id="glossary" class="page-section">
+    <div class="migration-container">
+        <div class="mig-header">
+            <h2 class="gold-text">THE ARCHIVE</h2>
+            <p class="serif">Terms of the Infinite Journey</p>
+        </div>
+        
+        <div class="glossary-grid">
+            <div class="gloss-card" id="def-odyssey">
+                <div class="gloss-word">ODYSSEY</div>
+                <p class="gloss-def">A long series of wanderings or adventures, especially when filled with notable experiences and hardships.</p>
+                <div class="gloss-ctx"><span class="ctx-tag">In Context:</span> Ronaldo's entire professional path across five different leagues and cultures.</div>
+            </div>
+
+            <div class="gloss-card" id="def-exile">
+                <div class="gloss-word">EXILE</div>
+                <p class="gloss-def">The state of being barred from one's native country, typically for political or punitive reasons, or a self-imposed period away.</p>
+                <div class="gloss-ctx"><span class="ctx-tag">In Context:</span> The emotional isolation felt by 12-year-old Cristiano when leaving his island for the mainland.</div>
+            </div>
+
+            <div class="gloss-card" id="def-ascension">
+                <div class="gloss-word">ASCENSION</div>
+                <p class="gloss-def">The act of rising to an important position or a higher level.</p>
+                <div class="gloss-ctx"><span class="ctx-tag">In Context:</span> Ronaldo's rise to absolute global dominance and record-breaking status at Real Madrid.</div>
+            </div>
+
+            <div class="gloss-card" id="def-versatility">
+                <div class="gloss-word">VERSATILITY</div>
+                <p class="gloss-def">Ability to adapt or be adapted to many different functions or activities.</p>
+                <div class="gloss-ctx"><span class="ctx-tag">In Context:</span> Success in the Italian league by mastering its distinct tactical and defensive requirements.</div>
+            </div>
+
+            <div class="gloss-card" id="def-rekindled">
+                <div class="gloss-word">REKINDLED</div>
+                <p class="gloss-def">To relight (a fire) or revive (something that has been lost or dormant).</p>
+                <div class="gloss-ctx"><span class="ctx-tag">In Context:</span> The revival of legacy and emotion during his emotional return to Manchester United.</div>
+            </div>
+
+            <div class="gloss-card" id="def-elite">
+                <div class="gloss-word">ELITE</div>
+                <p class="gloss-def">A select group that is superior in terms of ability or qualities to the rest of a group or society.</p>
+                <div class="gloss-ctx">
+                    <span class="ctx-tag">Context 1 (Migration):</span> Refers to a top-tier athlete maintaining peak standards even without a club.
+                    <br><br>
+                    <span class="ctx-tag">Context 2 (Parallel):</span> The superior fitness and professional standards Kohli introduced to Indian sports.
+                </div>
+            </div>
+
+            <div class="gloss-card" id="def-nomad">
+                <div class="gloss-word">NOMAD</div>
+                <p class="gloss-def">A person who does not stay long in the same place; a wanderer.</p>
+                <div class="gloss-ctx"><span class="ctx-tag">In Context:</span> Moving across world capitals with no permanent club, driven only by the pursuit of excellence.</div>
+            </div>
+
+            <div class="gloss-card" id="def-pioneer">
+                <div class="gloss-word">PIONEER</div>
+                <p class="gloss-def">A person who is among the first to explore or settle a new country or area.</p>
+                <div class="gloss-ctx"><span class="ctx-tag">In Context:</span> Being the first global superstar to establish football's new frontier in Saudi Arabia.</div>
+            </div>
+
+            <div class="gloss-card" id="def-architect">
+                <div class="gloss-word">ARCHITECT</div>
+                <p class="gloss-def">A person who is responsible for inventing or realizing a particular idea or project.</p>
+                <div class="gloss-ctx"><span class="ctx-tag">In Context:</span> How Ronaldo intentionally designed his career path through calculated geographical moves.</div>
+            </div>
+
+            <div class="gloss-card" id="def-resilience">
+                <div class="gloss-word">RESILIENCE</div>
+                <p class="gloss-def">The capacity to recover quickly from difficulties; toughness.</p>
+                <div class="gloss-ctx"><span class="ctx-tag">In Context:</span> The mental strength required to leave comfort zones and survive the pressure of global fame.</div>
+            </div>
+        </div>
+    </div>
+</section>
+
 <footer style="text-align:center; padding:50px; opacity:0.4; border-top:1px solid var(--glass-border);">
     THE MIGRATION ARCHIVE &copy; 2024
 </footer>
@@ -629,7 +734,7 @@
         },
         adaptation: {
             cr: "He changed his style for every country. Speed in England, goals in Spain, and tactics in Italy.",
-            vk: "He changed the culture of Indian cricket. He introduced elite fitness and a strict diet to a whole nation."
+            vk: "He changed the culture of Indian cricket. He introduced <a href='javascript:void(0)' onclick=\"goToGlossary('elite')\" class='vocab-hint'>elite</a> fitness and a strict diet to a whole nation."
         },
         current: {
             cr: "Living in Saudi Arabia. He is the face of a new league, living in the spotlight and leading a football revolution.",
@@ -656,6 +761,19 @@
         setTimeout(initObserver, 100);
     }
 
+    function goToGlossary(wordId) {
+        const glossaryBtn = document.querySelectorAll('.nav-btn')[4];
+        showPage('glossary', glossaryBtn);
+        setTimeout(() => {
+            const element = document.getElementById('def-' + wordId);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                element.style.background = 'rgba(212, 175, 55, 0.1)';
+                setTimeout(() => element.style.background = 'var(--glass)', 2000);
+            }
+        }, 500);
+    }
+
     function initObserver() {
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
@@ -669,7 +787,7 @@
     const cursor = document.getElementById('cursor');
     const dot = document.getElementById('cursorDot');
     document.addEventListener('mousemove', (e) => {
-        cursor.style.left = (e.clientX - 12) + 'px'; // Centered for the football icon
+        cursor.style.left = (e.clientX - 12) + 'px';
         cursor.style.top = (e.clientY - 12) + 'px';
         dot.style.left = (e.clientX - 3) + 'px';
         dot.style.top = (e.clientY - 3) + 'px';
