@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -84,7 +83,7 @@
         font-size: 1.1rem;
     }
 
-    /* --- 2. NAVIGATION (RESTORED TO OG FONT) --- */
+    /* --- 2. NAVIGATION --- */
     nav {
         position: fixed; top: 0; width: 100%; height: 80px;
         display: flex; justify-content: space-between; align-items: center;
@@ -99,7 +98,11 @@
         letter-spacing: 2px; 
         font-weight: 600; 
         text-transform: uppercase;
+        cursor: pointer;
+        transition: 0.3s;
     }
+    .nav-logo:hover { letter-spacing: 4px; }
+
     .nav-links { display: flex; gap: 30px; }
     .nav-btn {
         background: none; border: none; color: var(--text-main);
@@ -113,6 +116,44 @@
     }
     .nav-btn:hover, .nav-btn.active { opacity: 1; color: var(--gold); }
     .nav-btn:hover::after, .nav-btn.active::after { width: 100%; }
+
+    /* --- NEW: MENU OVERLAY SYSTEM --- */
+    .menu-overlay {
+        position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+        background: var(--bg-deep); z-index: 2000;
+        display: flex; flex-direction: column; align-items: center; justify-content: center;
+        clip-path: circle(0% at 5% 5%);
+        transition: clip-path 0.8s cubic-bezier(0.77, 0, 0.175, 1);
+        pointer-events: none;
+    }
+    .menu-overlay.open {
+        clip-path: circle(150% at 5% 5%);
+        pointer-events: all;
+    }
+    .menu-bg-text {
+        position: absolute; font-family: 'Oswald'; font-size: 20vw;
+        color: var(--gold); opacity: 0.03; font-weight: 900;
+        z-index: -1; white-space: nowrap; pointer-events: none;
+    }
+    .menu-list { list-style: none; text-align: center; }
+    .menu-item { 
+        margin: 20px 0; overflow: hidden; 
+    }
+    .menu-link {
+        font-family: 'Oswald'; font-size: 4rem; color: var(--text-main);
+        text-decoration: none; display: block; transition: 0.4s;
+        transform: translateY(100px); opacity: 0;
+    }
+    .menu-overlay.open .menu-link {
+        transform: translateY(0); opacity: 1;
+    }
+    .menu-link:hover { color: var(--gold); transform: skewX(-10deg) scale(1.1); }
+    
+    .menu-close {
+        position: absolute; top: 30px; right: 4vw;
+        background: none; border: 1px solid var(--gold); color: var(--gold);
+        padding: 10px 25px; font-family: 'Oswald'; letter-spacing: 3px;
+    }
 
     /* --- THEME TOGGLE BUTTON --- */
     .theme-toggle {
@@ -318,6 +359,7 @@
     /* Responsive */
     @media (max-width: 768px) {
         .hero h1 { font-size: 15vw; }
+        .menu-link { font-size: 2.5rem; }
         .mig-row, .mig-row.reverse { grid-template-columns: 1fr; direction: ltr; gap: 40px; }
         .mig-row.reverse .mig-text { direction: ltr; }
         .arena { grid-template-columns: 1fr; gap: 50px; }
@@ -338,12 +380,26 @@
 </div>
 <div class="cursor-dot" id="cursorDot"></div>
 
+<!-- NEW: MENU OVERLAY -->
+<div class="menu-overlay" id="menuOverlay">
+    <div class="menu-bg-text">THE JOURNEY</div>
+    <button class="menu-close" onclick="toggleMenu()">CLOSE</button>
+    <ul class="menu-list">
+        <li class="menu-item"><a href="javascript:void(0)" class="menu-link" style="transition-delay: 0.1s;" onclick="showPage('home'); toggleMenu();">01. INTRO</a></li>
+        <li class="menu-item"><a href="javascript:void(0)" class="menu-link" style="transition-delay: 0.2s;" onclick="showPage('migration'); toggleMenu();">02. MIGRATION</a></li>
+        <li class="menu-item"><a href="javascript:void(0)" class="menu-link" style="transition-delay: 0.3s;" onclick="showPage('timeline'); toggleMenu();">03. TIMELINE</a></li>
+        <li class="menu-item"><a href="javascript:void(0)" class="menu-link" style="transition-delay: 0.4s;" onclick="showPage('comparison'); toggleMenu();">04. PARALLEL</a></li>
+        <li class="menu-item"><a href="javascript:void(0)" class="menu-link" style="transition-delay: 0.5s;" onclick="showPage('glossary'); toggleMenu();">05. ARCHIVE</a></li>
+    </ul>
+</div>
+
 <button class="theme-toggle" id="themeToggle" title="Toggle Eclipse Mode">
     <i class="fas fa-moon"></i>
 </button>
 
 <nav>
-    <div class="nav-logo">CR7<span class="gold-text">.MIGRATION</span></div>
+    <!-- CLICKABLE LOGO TO OPEN MENU -->
+    <div class="nav-logo" onclick="toggleMenu()">CR7<span class="gold-text">.MIGRATION</span></div>
     <div class="nav-links">
         <button class="nav-btn active" onclick="showPage('home', this)">INTRO</button>
         <button class="nav-btn" onclick="showPage('migration', this)">MIGRATION</button>
@@ -697,6 +753,12 @@
 </footer>
 
 <script>
+    // --- MENU OVERLAY LOGIC ---
+    function toggleMenu() {
+        const overlay = document.getElementById('menuOverlay');
+        overlay.classList.toggle('open');
+    }
+
     // --- THEME LOGIC ---
     const themeToggle = document.getElementById('themeToggle');
     const body = document.body;
@@ -744,7 +806,7 @@
 
     function setCompare(key) {
         document.querySelectorAll('.c-btn').forEach(b => b.classList.remove('active'));
-        if(event) event.target.classList.add('active');
+        if(event && event.target.classList.contains('c-btn')) event.target.classList.add('active');
         const crPanel = document.getElementById('cr-content');
         const vkPanel = document.getElementById('vk-content');
         crPanel.innerHTML = data[key].cr;
@@ -755,8 +817,22 @@
     function showPage(id, btn) {
         document.querySelectorAll('.page-section').forEach(p => p.classList.remove('active-page'));
         document.getElementById(id).classList.add('active-page');
+        
+        // Update Nav buttons
         document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-        if(btn) btn.classList.add('active');
+        
+        // If btn is passed, activate it. Otherwise find by text (for menu support)
+        if(btn) {
+            btn.classList.add('active');
+        } else {
+            const btns = document.querySelectorAll('.nav-btn');
+            if(id === 'home') btns[0].classList.add('active');
+            if(id === 'migration') btns[1].classList.add('active');
+            if(id === 'timeline') btns[2].classList.add('active');
+            if(id === 'comparison') btns[3].classList.add('active');
+            if(id === 'glossary') btns[4].classList.add('active');
+        }
+
         window.scrollTo({top: 0, behavior: 'smooth'});
         setTimeout(initObserver, 100);
     }
