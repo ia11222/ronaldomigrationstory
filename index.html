@@ -117,7 +117,7 @@
     .nav-btn:hover, .nav-btn.active { opacity: 1; color: var(--gold); }
     .nav-btn:hover::after, .nav-btn.active::after { width: 100%; }
 
-    /* --- NEW: MENU OVERLAY SYSTEM --- */
+    /* --- MENU OVERLAY SYSTEM --- */
     .menu-overlay {
         position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
         background: var(--bg-deep); z-index: 2000;
@@ -143,6 +143,8 @@
         font-family: 'Oswald'; font-size: 4rem; color: var(--text-main);
         text-decoration: none; display: block; transition: 0.4s;
         transform: translateY(100px); opacity: 0;
+        letter-spacing: 3px;
+        text-transform: uppercase;
     }
     .menu-overlay.open .menu-link {
         transform: translateY(0); opacity: 1;
@@ -153,7 +155,9 @@
         position: absolute; top: 30px; right: 4vw;
         background: none; border: 1px solid var(--gold); color: var(--gold);
         padding: 10px 25px; font-family: 'Oswald'; letter-spacing: 3px;
+        transition: 0.3s;
     }
+    .menu-close:hover { background: var(--gold); color: #000; }
 
     /* --- THEME TOGGLE BUTTON --- */
     .theme-toggle {
@@ -234,6 +238,7 @@
         border-bottom: 1px solid var(--glass-border); padding-bottom: 15px;
     }
     .mig-icon { font-size: 2rem; color: var(--gold); }
+    .info-split { display: grid; grid-template-columns: 1fr; gap: 20px; }
     .info-block h4 { color: var(--gold); font-size: 0.9rem; margin-bottom: 5px; }
     .info-block p { font-size: 0.95rem; color: var(--text-muted); }
 
@@ -380,7 +385,7 @@
 </div>
 <div class="cursor-dot" id="cursorDot"></div>
 
-<!-- NEW: MENU OVERLAY -->
+<!-- MENU OVERLAY -->
 <div class="menu-overlay" id="menuOverlay">
     <div class="menu-bg-text">THE JOURNEY</div>
     <button class="menu-close" onclick="toggleMenu()">CLOSE</button>
@@ -389,7 +394,7 @@
         <li class="menu-item"><a href="javascript:void(0)" class="menu-link" style="transition-delay: 0.2s;" onclick="showPage('migration'); toggleMenu();">02. MIGRATION</a></li>
         <li class="menu-item"><a href="javascript:void(0)" class="menu-link" style="transition-delay: 0.3s;" onclick="showPage('timeline'); toggleMenu();">03. TIMELINE</a></li>
         <li class="menu-item"><a href="javascript:void(0)" class="menu-link" style="transition-delay: 0.4s;" onclick="showPage('comparison'); toggleMenu();">04. PARALLEL</a></li>
-        <li class="menu-item"><a href="javascript:void(0)" class="menu-link" style="transition-delay: 0.5s;" onclick="showPage('glossary'); toggleMenu();">05. ARCHIVE</a></li>
+        <li class="menu-item"><a href="javascript:void(0)" class="menu-link" style="transition-delay: 0.5s;" onclick="showPage('glossary'); toggleMenu();">05. GLOSSARY</a></li>
     </ul>
 </div>
 
@@ -398,7 +403,6 @@
 </button>
 
 <nav>
-    <!-- CLICKABLE LOGO TO OPEN MENU -->
     <div class="nav-logo" onclick="toggleMenu()">CR7<span class="gold-text">.MIGRATION</span></div>
     <div class="nav-links">
         <button class="nav-btn active" onclick="showPage('home', this)">INTRO</button>
@@ -727,6 +731,12 @@
                 <div class="gloss-ctx"><span class="ctx-tag">In Context:</span> Moving across world capitals with no permanent club, driven only by the pursuit of excellence.</div>
             </div>
 
+            <div class="gloss-card" id="def-pursuit">
+                <div class="gloss-word">PURSUIT</div>
+                <p class="gloss-def">The steady and determined effort to achieve a goal, or the act of chasing something of great value.</p>
+                <div class="gloss-ctx"><span class="ctx-tag">In Context:</span> Ronaldo's obsessive drive for perfection that made every geographical move a necessary step toward immortality.</div>
+            </div>
+
             <div class="gloss-card" id="def-pioneer">
                 <div class="gloss-word">PIONEER</div>
                 <p class="gloss-def">A person who is among the first to explore or settle a new country or area.</p>
@@ -817,11 +827,8 @@
     function showPage(id, btn) {
         document.querySelectorAll('.page-section').forEach(p => p.classList.remove('active-page'));
         document.getElementById(id).classList.add('active-page');
-        
-        // Update Nav buttons
         document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
         
-        // If btn is passed, activate it. Otherwise find by text (for menu support)
         if(btn) {
             btn.classList.add('active');
         } else {
@@ -886,3 +893,4 @@
 
 </body>
 </html>
+
