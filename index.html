@@ -320,14 +320,44 @@
 
     /* ================= COMPARISON PAGE ================= */
     .compare-wrap { max-width: 1400px; margin: 0 auto; padding: 50px 20px; }
-    .compare-controls { display: flex; justify-content: center; gap: 15px; margin-bottom: 50px; flex-wrap: wrap; }
 
-    .c-btn {
-        background: var(--glass); color: var(--text-main);
-        border: 1px solid var(--glass-border); padding: 12px 30px;
-        font-family: 'Oswald'; cursor: none; transition: 0.3s;
+    /* PERSONA SELECTOR SLIDER (4 ITEMS) */
+    .persona-switch {
+        display: flex; background: var(--glass); border: 1px solid var(--glass-border);
+        border-radius: 50px; padding: 5px; margin: 0 auto 40px auto;
+        max-width: 800px; position: relative;
     }
-    .c-btn:hover, .c-btn.active { background: var(--gold); color: #000; }
+    .p-btn {
+        flex: 1; padding: 12px 5px; border: none; background: none;
+        color: var(--text-main); font-family: 'Oswald'; letter-spacing: 1px;
+        cursor: none; z-index: 2; transition: 0.3s; font-size: 0.8rem;
+    }
+    .p-btn.active { color: #000; }
+    .slider-bg {
+        position: absolute; top: 5px; left: 5px;
+        width: calc(25% - 5px); height: calc(100% - 10px);
+        background: var(--gold); border-radius: 50px;
+        transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1); z-index: 1;
+    }
+
+    /* CONTENT SELECTOR SLIDER (5 ITEMS) */
+    .compare-controls {
+        display: flex; background: var(--glass); border: 1px solid var(--glass-border);
+        border-radius: 4px; padding: 5px; margin: 0 auto 50px auto;
+        max-width: 950px; position: relative;
+    }
+    .c-btn {
+        flex: 1; padding: 15px 5px; border: none; background: none;
+        color: var(--text-main); font-family: 'Oswald'; cursor: none;
+        z-index: 2; transition: 0.3s; font-size: 0.85rem; letter-spacing: 1px;
+    }
+    .c-btn.active { color: #000; }
+    .content-slider-bg {
+        position: absolute; top: 5px; left: 5px;
+        width: calc(20% - 5px); height: calc(100% - 10px);
+        background: var(--gold); border-radius: 2px;
+        transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1); z-index: 1;
+    }
 
     .arena { display: grid; grid-template-columns: 1fr 0.1fr 1fr; gap: 30px; align-items: start; }
 
@@ -338,6 +368,7 @@
     .f-img {
         width: 100px; height: 100px; border-radius: 50%; margin: 0 auto 20px;
         background-size: cover; border: 2px solid var(--gold);
+        transition: 0.5s;
     }
     .vs {
         display: flex; align-items: center; justify-content: center;
@@ -363,22 +394,15 @@
     .gloss-word { font-family: 'Oswald'; color: var(--gold); font-size: 1.6rem; margin-bottom: 5px; letter-spacing: 1px; }
     
     .gloss-syn { 
-        font-size: 0.75rem; 
-        color: var(--gold-dim); 
-        text-transform: uppercase; 
-        margin-bottom: 15px; 
-        letter-spacing: 1px; 
-        font-weight: 500;
+        font-size: 0.75rem; color: var(--gold-dim); text-transform: uppercase; 
+        margin-bottom: 15px; letter-spacing: 1px; font-weight: 500;
     }
 
     .gloss-def { font-size: 0.95rem; color: var(--text-muted); margin-bottom: 15px; }
     
     .gloss-ctx { 
-        font-size: 0.85rem; 
-        padding-top: 15px; 
-        border-top: 1px solid rgba(255,255,255,0.05); 
-        cursor: pointer;
-        transition: 0.3s;
+        font-size: 0.85rem; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.05); 
+        cursor: pointer; transition: 0.3s;
     }
     .gloss-ctx:hover { color: var(--gold); background: rgba(212, 175, 55, 0.05); }
 
@@ -388,25 +412,17 @@
     .cursor {
         position: fixed; pointer-events: none; z-index: 9999;
         mix-blend-mode: difference; transition: transform 0.1s;
-        color: var(--gold); font-size: 25px; 
-        display: flex; align-items: center; justify-content: center;
+        color: var(--gold); font-size: 25px; display: flex; align-items: center; justify-content: center;
     }
     .cursor-dot { display: none; }
 
     /* Responsive */
     @media (max-width: 768px) {
-        .hero h1 { font-size: 15vw; }
-        .menu-link { font-size: 2.5rem; }
-        .mig-row, .mig-row.reverse { grid-template-columns: 1fr; direction: ltr; gap: 40px; }
-        .mig-row.reverse .mig-text { direction: ltr; }
         .arena { grid-template-columns: 1fr; gap: 50px; }
         .vs { transform: rotate(90deg); margin: 20px 0; }
-        .timeline-wrap::after { left: 20px; }
-        .tl-item { width: 100%; padding-left: 50px; padding-right: 0; text-align: left; }
-        .tl-left, .tl-right { left: 0; }
-        .tl-left .tl-dot, .tl-right .tl-dot { left: 11px; }
-        .mig-summary { padding: 30px; }
-        .theme-toggle { bottom: 20px; right: 20px; width: 50px; height: 50px; }
+        .persona-switch, .compare-controls { flex-direction: column; border-radius: 10px; max-width: 90%; }
+        .slider-bg, .content-slider-bg { display: none; }
+        .p-btn.active, .c-btn.active { background: var(--gold); border-radius: 4px; }
     }
 </style>
 </head>
@@ -494,10 +510,9 @@
                         <p>Moving from the edge of the country to the center. He left his family to join a system that demanded he grow up instantly.</p>
                     </div>
                 </div>
-                <!-- UPDATED IMAGE: PORTUGAL VS MADEIRA ISLAND COMPARISON -->
                 <img src="https://mcs.pt/wp-content/uploads/2024/03/Life-in-Portugal-vs-Madeira-Island-A-Detailed-Comparison.jpg" 
                      alt="Life in Portugal vs Madeira Comparison" 
-                     style="width: 95%; margin: 70px auto 0 auto; border-radius: 4px; border: 2px solid var(--gold); box-shadow: 0 10px 30px rgba(212, 175, 55, 0.25); filter: grayscale(10%) contrast(1.1); display: block;">
+                     style="width: 90%; margin: 70px auto 0 auto; border-radius: 4px; border: 2px solid var(--gold); box-shadow: 0 10px 30px rgba(212, 175, 55, 0.25); filter: grayscale(10%) contrast(1.1); display: block;">
             </div>
         </div>
 
@@ -519,7 +534,6 @@
                         <p>Surviving the physical demands of a new country while learning a foreign language and navigating a new society.</p>
                     </div>
                 </div>
-                <!-- LANGUAGE POSTER IMAGE -->
                 <img src="https://t1.pixers.pics/img-c676e9e9/posters-language.jpg?H4sIAAAAAAAAA42PW07EMAxFt5NK7dh5NU4XML-zhCpt0qHQl5ICI1ZPAog_JGRZfsj3WBdet-SmAGPYzhBhnb1fAkzzkqfUxZDmj8Cw1tpWXd4uDBGrbn8LcYz7wRqNdaOobjnmFFX37rJwdfGFPZ3nkTqAJC_H_Mi0XMYE45pAIDeABNqSdWISFhXx_mjS6Tbvos_Uh8bLsd1rLPF_LAFH0IPnQzuQRzVQL0SBNb-EL6y0xRMV9I9Hg1ib4u2M88qy2T1fn-z5uFfwx8_vHrIKrjdQBpQAEoCyrPrrTRklSKDslSHp7OSIo1PGyBYNGbLSTarVE9eX_OUT3SvYSYkBAAA=" 
                      alt="Language Poster Word Cloud" 
                      style="width: 65%; margin: 70px auto 0 auto; border-radius: 4px; border: 2px solid var(--gold); box-shadow: 0 10px 30px rgba(212, 175, 55, 0.25); filter: grayscale(10%) contrast(1.1); display: block;">
@@ -544,7 +558,6 @@
                         <p>Transitioning from a footballer to a world icon. He proved that a migrant can dominate any environment they enter.</p>
                     </div>
                 </div>
-                <!-- REAL MADRID IMAGE -->
                 <img src="https://i2-prod.manchestereveningnews.co.uk/incoming/article24090059.ece/ALTERNATES/s1200c/0_GettyImages-963682418.jpg" 
                      alt="CR7 Real Madrid" 
                      style="width: 75%; margin: 70px auto 0 auto; border-radius: 4px; border: 2px solid var(--gold); box-shadow: 0 10px 30px rgba(212, 175, 55, 0.25); filter: grayscale(10%) contrast(1.1); display: block;">
@@ -569,7 +582,6 @@
                         <p>Learning the art of Italian discipline. He proved that the migrant's mindset is more important than the location.</p>
                     </div>
                 </div>
-                <!-- JUVENTUS IMAGE -->
                 <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_YZmTkjXxSAb3eszY23z68jd6kxyHI-BkMg&s" 
                      alt="CR7 Juventus" 
                      style="width: 75%; margin: 70px auto 0 auto; border-radius: 4px; border: 2px solid var(--gold); box-shadow: 0 10px 30px rgba(212, 175, 55, 0.25); filter: grayscale(10%) contrast(1.1); display: block;">
@@ -594,7 +606,6 @@
                         <p>Returning to a former home. A study of how both the migrant and the host country change over time.</p>
                     </div>
                 </div>
-                <!-- MANCHESTER UNITED RETURN IMAGE -->
                 <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTUPHfw3QBcTafqQxdqu2YNdej99gklDSKkFg&s" 
                      alt="CR7 Manchester United Return" 
                      style="width: 75%; margin: 70px auto 0 auto; border-radius: 4px; border: 2px solid var(--gold); box-shadow: 0 10px 30px rgba(212, 175, 55, 0.25); filter: grayscale(10%) contrast(1.1); display: block;">
@@ -638,10 +649,9 @@
                         <p>Changing the map of world opportunity. He is now the person creating new migration routes for the next generation.</p>
                     </div>
                 </div>
-                <!-- UPDATED: AL NASSR PIONEER IMAGE -->
                 <img src="https://d3h9qea4qy4169.cloudfront.net/medium_CR_7_Campaign_a9b905746c.png" 
                      alt="CR7 Al Nassr Pioneer" 
-                     style="width: 90%; margin: 70px auto 0 auto; border-radius: 4px; border: 2px solid var(--gold); box-shadow: 0 10px 30px rgba(212, 175, 55, 0.25); filter: grayscale(10%) contrast(1.1); display: block;">
+                     style="width: 75%; margin: 70px auto 0 auto; border-radius: 4px; border: 2px solid var(--gold); box-shadow: 0 10px 30px rgba(212, 175, 55, 0.25); filter: grayscale(10%) contrast(1.1); display: block;">
             </div>
         </div>
 
@@ -670,7 +680,7 @@
             <div class="tl-dot"></div>
             <div class="tl-content">
                 <h3 style="color:#26a36c">Sporting CP</h3>
-                <p style="opacity:0.6; margin-top:5px;">Where it all began. Debut at 17.</p>
+                <p style="opacity:0.6; margin-top:5px;">Debut at 17.</p>
             </div>
         </div>
         <div class="tl-item tl-right">
@@ -678,7 +688,7 @@
             <div class="tl-dot"></div>
             <div class="tl-content">
                 <h3 style="color:#da291c">Man Utd</h3>
-                <p style="opacity:0.6; margin-top:5px;">Migrated to England. Became a global star.</p>
+                <p style="opacity:0.6; margin-top:5px;">Migrated to England.</p>
             </div>
         </div>
         <div class="tl-item tl-left">
@@ -686,7 +696,7 @@
             <div class="tl-dot"></div>
             <div class="tl-content">
                 <h3 style="color:#00529F">Real Madrid</h3>
-                <p style="opacity:0.6; margin-top:5px;">The King of Spain. 4 Champions Leagues.</p>
+                <p style="opacity:0.6; margin-top:5px;">Conquered Spain.</p>
             </div>
         </div>
         <div class="tl-item tl-right">
@@ -694,7 +704,7 @@
             <div class="tl-dot"></div>
             <div class="tl-content">
                 <h3 style="color:var(--text-main)">Juventus</h3>
-                <p style="opacity:0.6; margin-top:5px;">Conquered Italy. Two Serie A titles.</p>
+                <p style="opacity:0.6; margin-top:5px;">Conquered Italy.</p>
             </div>
         </div>
         <div class="tl-item tl-left">
@@ -702,7 +712,7 @@
             <div class="tl-dot"></div>
             <div class="tl-content">
                 <h3 style="color:#FBC02D">Al Nassr</h3>
-                <p style="opacity:0.6; margin-top:5px;">A new chapter in the East.</p>
+                <p style="opacity:0.6; margin-top:5px;">Chapter in the East.</p>
             </div>
         </div>
     </div>
@@ -716,15 +726,27 @@
 <section id="comparison" class="page-section">
     <div class="mig-header">
         <h2 class="gold-text">THE PARALLEL JOURNEYS</h2>
-        <p class="serif">Cristiano Ronaldo vs. Virat Kohli</p>
+        <p class="serif">Cristiano Ronaldo vs. Global Parallels</p>
     </div>
 
     <div class="compare-wrap">
+        <!-- PERSONA SELECTOR SLIDER (4 ITEMS) -->
+        <div class="persona-switch">
+            <div class="slider-bg" id="personaSlider"></div>
+            <button class="p-btn active" onclick="switchPersona('vk', 0)">VIRAT KOHLI</button>
+            <button class="p-btn" onclick="switchPersona('pm', 1)">PROPHET MUHAMMAD (SAW)</button>
+            <button class="p-btn" onclick="switchPersona('ae', 2)">ALBERT EINSTEIN</button>
+            <button class="p-btn" onclick="switchPersona('bo', 3)">BARACK OBAMA</button>
+        </div>
+
+        <!-- CONTENT CATEGORY SLIDER (5 ITEMS) -->
         <div class="compare-controls">
-            <button class="c-btn active" onclick="setCompare('roots')">THE ROOTS</button>
-            <button class="c-btn" onclick="setCompare('big_move')">THE BIG MOVE</button>
-            <button class="c-btn" onclick="setCompare('adaptation')">ADAPTATION</button>
-            <button class="c-btn" onclick="setCompare('current')">CURRENT HOME</button>
+            <div class="content-slider-bg" id="contentSlider"></div>
+            <button class="c-btn active" onclick="setCompare('roots', 0)">THE ROOTS</button>
+            <button class="c-btn" onclick="setCompare('big_move', 1)">THE BIG MOVE</button>
+            <button class="c-btn" onclick="setCompare('adaptation', 2)">ADAPTATION</button>
+            <button class="c-btn" onclick="setCompare('current', 3)">CURRENT HOME</button>
+            <button class="c-btn" onclick="setCompare('factors', 4)">PUSH & PULL</button>
         </div>
 
         <div class="arena">
@@ -735,8 +757,8 @@
             </div>
             <div class="vs">VS</div>
             <div class="fighter">
-                <div class="f-img" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/e/ef/Virat_Kohli_during_the_India_vs_Aus_4th_Test_match_at_Narendra_Modi_Stadium_on_09_March_2023.jpg');"></div>
-                <h3>KOHLI</h3>
+                <div class="f-img" id="target-img" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/e/ef/Virat_Kohli_during_the_India_vs_Aus_4th_Test_match_at_Narendra_Modi_Stadium_on_09_March_2023.jpg');"></div>
+                <h3 id="target-name">KOHLI</h3>
                 <div id="vk-content" style="opacity:0.8; font-size:0.95rem; margin-top:20px; line-height: 1.6;"></div>
             </div>
         </div>
@@ -757,103 +779,72 @@
                 <div class="gloss-word">ODYSSEY</div>
                 <div class="gloss-syn">Synonyms: Journey, Pilgrimage, Voyage</div>
                 <p class="gloss-def">A long series of wanderings or adventures, especially when filled with notable experiences and hardships.</p>
-                <div class="gloss-ctx" onclick="jumpToContext('odyssey', 'migration')"><span class="ctx-tag">In Context:</span> Ronaldo's entire professional path across five different leagues and cultures.</div>
             </div>
-
             <div class="gloss-card" id="def-exile">
                 <div class="gloss-word">EXILE</div>
                 <div class="gloss-syn">Synonyms: Separation, Banishment, Isolation</div>
                 <p class="gloss-def">The state of being barred from one's native country, typically for political or punitive reasons, or a self-imposed period away.</p>
-                <div class="gloss-ctx" onclick="jumpToContext('exile', 'migration')"><span class="ctx-tag">In Context:</span> The emotional isolation felt by 12-year-old Cristiano when leaving his island for the mainland.</div>
             </div>
-
             <div class="gloss-card" id="def-ascension">
                 <div class="gloss-word">ASCENSION</div>
                 <div class="gloss-syn">Synonyms: Rise, Elevation, Advancement</div>
                 <p class="gloss-def">The act of rising to an important position or a higher level.</p>
-                <div class="gloss-ctx" onclick="jumpToContext('ascension', 'migration')"><span class="ctx-tag">In Context:</span> Ronaldo's rise to absolute global dominance and record-breaking status at Real Madrid.</div>
             </div>
-
             <div class="gloss-card" id="def-versatility">
                 <div class="gloss-word">VERSATILITY</div>
                 <div class="gloss-syn">Synonyms: Adaptability, Flexibility, Range</div>
                 <p class="gloss-def">Ability to adapt or be adapted to many different functions or activities.</p>
-                <div class="gloss-ctx" onclick="jumpToContext('versatility', 'migration')"><span class="ctx-tag">In Context:</span> Success in the Italian league by mastering its distinct tactical and defensive requirements.</div>
             </div>
-
             <div class="gloss-card" id="def-rekindled">
                 <div class="gloss-word">REKINDLED</div>
                 <div class="gloss-syn">Synonyms: Revived, Renewed, Reignited</div>
                 <p class="gloss-def">To relight (a fire) or revive (something that has been lost or dormant).</p>
-                <div class="gloss-ctx" onclick="jumpToContext('rekindled', 'migration')"><span class="ctx-tag">In Context:</span> The revival of legacy and emotion during his emotional return to Manchester United.</div>
             </div>
-
             <div class="gloss-card" id="def-elite">
                 <div class="gloss-word">ELITE</div>
                 <div class="gloss-syn">Synonyms: Superior, Top-tier, Prime</div>
                 <p class="gloss-def">A select group that is superior in terms of ability or qualities to the rest of a group or society.</p>
-                <div class="gloss-ctx" onclick="jumpToContext('elite', 'migration')">
-                    <span class="ctx-tag">Context (Migration):</span> Refers to a top-tier athlete maintaining peak standards even without a club.
-                </div>
             </div>
-
             <div class="gloss-card" id="def-nomad">
                 <div class="gloss-word">NOMAD</div>
                 <div class="gloss-syn">Synonyms: Wanderer, Traveler, Drifter</div>
                 <p class="gloss-def">A person who does not stay long in the same place; a wanderer.</p>
-                <div class="gloss-ctx" onclick="jumpToContext('nomad', 'migration')"><span class="ctx-tag">In Context:</span> Moving across world capitals with no permanent club, driven only by the pursuit of excellence.</div>
             </div>
-
             <div class="gloss-card" id="def-pursuit">
                 <div class="gloss-word">PURSUIT</div>
                 <div class="gloss-syn">Synonyms: Quest, Search, Chase</div>
                 <p class="gloss-def">The steady and determined effort to achieve a goal, or the act of chasing something of great value.</p>
-                <div class="gloss-ctx" onclick="jumpToContext('pursuit', 'home')"><span class="ctx-tag">In Context:</span> Ronaldo's obsessive drive for perfection that made every geographical move a necessary step toward immortality.</div>
             </div>
-
             <div class="gloss-card" id="def-pioneer">
                 <div class="gloss-word">PIONEER</div>
                 <div class="gloss-syn">Synonyms: Trailblazer, Innovator, Founder</div>
                 <p class="gloss-def">A person who is among the first to explore or settle a new country or area.</p>
-                <div class="gloss-ctx" onclick="jumpToContext('pioneer', 'migration')"><span class="ctx-tag">In Context:</span> Being the first global superstar to establish football's new frontier in Saudi Arabia.</div>
             </div>
-
             <div class="gloss-card" id="def-architect">
                 <div class="gloss-word">ARCHITECT</div>
                 <div class="gloss-syn">Synonyms: Designer, Mastermind, Creator</div>
                 <p class="gloss-def">A person who is responsible for inventing or realizing a particular idea or project.</p>
-                <div class="gloss-ctx" onclick="jumpToContext('architect', 'migration')"><span class="ctx-tag">In Context:</span> How Ronaldo intentionally designed his career path through calculated geographical moves.</div>
             </div>
-
             <div class="gloss-card" id="def-resilience">
                 <div class="gloss-word">RESILIENCE</div>
                 <div class="gloss-syn">Synonyms: Fortitude, Grit, Toughness</div>
                 <p class="gloss-def">The capacity to recover quickly from difficulties; toughness.</p>
-                <div class="gloss-ctx" onclick="jumpToContext('resilience', 'migration')"><span class="ctx-tag">In Context:</span> The mental strength required to leave comfort zones and survive the pressure of global fame.</div>
             </div>
-
-            <!-- NEW MIGRATION TERMS -->
             <div class="gloss-card" id="def-repatriation">
                 <div class="gloss-word">REPATRIATION</div>
                 <div class="gloss-syn">Synonyms: Return, Restoration, Re-entry</div>
                 <p class="gloss-def">The process of returning a person—voluntarily or forcibly—to their place of origin or citizenship.</p>
-                <div class="gloss-ctx" onclick="jumpToContext('repatriation', 'migration')"><span class="ctx-tag">In Context:</span> Ronaldo's return to Manchester United after years abroad.</div>
             </div>
-
             <div class="gloss-card" id="def-assimilation">
                 <div class="gloss-word">ASSIMILATION</div>
                 <div class="gloss-syn">Synonyms: Integration, Adaptation, Blending</div>
                 <p class="gloss-def">The process where individuals or groups of different ethnic heritage are absorbed into the dominant culture of a society.</p>
-                <div class="gloss-ctx" onclick="jumpToContext('assimilation', 'migration')"><span class="ctx-tag">In Context:</span> Changing habits and language to fit into the culture of England.</div>
             </div>
-
             <div class="gloss-card" id="def-factors">
                 <div class="gloss-word">PUSH-PULL FACTORS</div>
                 <div class="gloss-syn">Synonyms: Drivers, Motivations, Causes</div>
                 <p class="gloss-def">Forces that either drive people away from their homes (push) or draw them to a new area (pull).</p>
-                <div class="gloss-ctx" onclick="jumpToContext('factors', 'migration')"><span class="ctx-tag">In Context:</span> Poverty in Madeira (push) vs. opportunities in Lisbon (pull).</div>
             </div>
-
         </div>
     </div>
 </section>
@@ -863,13 +854,10 @@
 </footer>
 
 <script>
-    // --- MENU OVERLAY LOGIC ---
     function toggleMenu() {
-        const overlay = document.getElementById('menuOverlay');
-        overlay.classList.toggle('open');
+        document.getElementById('menuOverlay').classList.toggle('open');
     }
 
-    // --- THEME LOGIC ---
     const themeToggle = document.getElementById('themeToggle');
     const body = document.body;
     const icon = themeToggle.querySelector('i');
@@ -878,14 +866,12 @@
     setTheme(savedTheme);
 
     themeToggle.addEventListener('click', () => {
-        const newTheme = body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-        setTheme(newTheme);
+        setTheme(body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
     });
 
     function setTheme(theme) {
         body.setAttribute('data-theme', theme);
         localStorage.setItem('cr7-theme', theme);
-        
         if (theme === 'light') {
             icon.className = 'fas fa-sun';
             themeToggle.style.transform = 'rotate(180deg)';
@@ -895,51 +881,88 @@
         }
     }
 
-    const data = {
+    // --- COMPARISON LOGIC ---
+    let currentPersona = 'vk';
+    let currentTab = 'roots';
+
+    const comparisonData = {
         roots: {
             cr: "Born in Madeira. He grew up in poverty on a small island, far from the mainland. This isolation gave him the hunger to escape and succeed.",
-            vk: "Born in Delhi. Growing up in the busy streets of India's capital made him aggressive and tough. He learned to fight for every run."
+            vk: "Born in Delhi. Growing up in the busy streets of India's capital made him aggressive and tough. He learned to fight for every run.",
+            pm: "Born in Makkah. He was born into the noble Quraysh tribe but faced life as an orphan. The harsh desert environment forged a spirit of unparalleled steadfastness.",
+            ae: "Born in Ulm, Germany. Raised in a middle-class Jewish family, his early curiosity about the physical world was nurtured in the structured environments of Munich and Italy.",
+            bo: "Born in Honolulu, Hawaii. Raised in a multicultural environment by a single mother and grandparents, his early life was defined by navigating diverse cultural identities."
         },
         big_move: {
             cr: "Moved to Lisbon at 12 alone. It was a terrifying move that forced him to grow up instantly and focus only on football.",
-            vk: "Migrated his primary base to London. Seeking a life of privacy away from the Indian spotlight, he chose the UK to find peace and protect his family."
+            vk: "Migrated his primary base to London. Seeking a life of privacy away from the Indian spotlight, he chose the UK to find peace and protect his family.",
+            pm: "The Hijrah (622 AD). Moving from Makkah to Madinah to escape persecution. This was not just a change of location, but the birth of a new era for humanity.",
+            ae: "The Great Flight (1933). Einstein left Germany for the United States to escape the rise of the Nazi regime, transitioning from European scientist to global refugee.",
+            bo: "Moving to Chicago. Leaving the comfort of Hawaii to work as a community organizer. This internal migration was his 'Lisbon' moment—leaving home to find his true purpose."
         },
         adaptation: {
             cr: "He changed his style for every country. Speed in England, goals in Spain, and tactics in Italy.",
-            vk: "He changed the culture of Indian cricket. He introduced <a href='javascript:void(0)' onclick=\"goToGlossary('elite')\" class='vocab-hint'>elite</a> fitness and a strict diet to a whole nation."
+            vk: "He changed the culture of Indian cricket. He introduced elite fitness and a strict diet to a whole nation.",
+            pm: "Established a unified state in Madinah. He transformed a society divided by tribal warfare into a single brotherhood based on justice and common purpose.",
+            ae: "Adapting to Princeton. He embraced the freedom of the American academic system, using his platform to advocate for world peace and civil rights.",
+            bo: "Adapting to Leadership. He transitioned from community work to law, and finally the Presidency, mastering the distinct 'languages' of different social classes to unite a nation."
         },
         current: {
             cr: "Living in Saudi Arabia. He is the face of a new league, living in the spotlight and leading a football revolution.",
-            vk: "Reported to be spending more time in London. He seeks a quiet life away from the massive fame he has in India."
+            vk: "Reported to be spending more time in London. He seeks a quiet life away from the massive fame he has in India.",
+            pm: "A global legacy. From the sands of Arabia to every corner of the earth, his journey remains the blueprint for billions of seekers.",
+            ae: "Immortal influence. Though he passed in 1955, his migration solidified his status as the ultimate transnational mind, proving talent has no border.",
+            bo: "Global Statesman. Based in Washington D.C., his journey represents the ultimate status migration from outsider to the leader of the world's most powerful nation."
+        },
+        factors: {
+            cr: "<b>Push:</b> Poverty and lack of opportunity in Madeira. <br><b>Pull:</b> Elite professional facilities and global exposure at Sporting CP.",
+            vk: "<b>Push:</b> Overwhelming scrutiny and lack of personal privacy in India. <br><b>Pull:</b> High-quality lifestyle and safety for his family in the UK.",
+            pm: "<b>Push:</b> Religious persecution, social boycott, and assassination threats in Makkah. <br><b>Pull:</b> Invitation to lead and find safety in Yathrib (Madinah).",
+            ae: "<b>Push:</b> Rise of the Nazi regime and seizure of his property in Germany. <br><b>Pull:</b> Safety, academic freedom, and research funding at Princeton (USA).",
+            bo: "<b>Push:</b> Limited political influence and professional scope in Hawaii. <br><b>Pull:</b> Rich political history and community organizing opportunities in Chicago."
         }
     };
 
-    function setCompare(key) {
-        document.querySelectorAll('.c-btn').forEach(b => b.classList.remove('active'));
-        if(event && event.target.classList.contains('c-btn')) event.target.classList.add('active');
-        const crPanel = document.getElementById('cr-content');
-        const vkPanel = document.getElementById('vk-content');
-        crPanel.innerHTML = data[key].cr;
-        vkPanel.innerHTML = data[key].vk;
+    const personaMetadata = {
+        vk: { name: "KOHLI", img: "https://upload.wikimedia.org/wikipedia/commons/e/ef/Virat_Kohli_during_the_India_vs_Aus_4th_Test_match_at_Narendra_Modi_Stadium_on_09_March_2023.jpg" },
+        pm: { name: "PROPHET (SAW)", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS9S781WvU8F0HByG8Kq0WbS98pWvX8X6f5qA&s" },
+        ae: { name: "EINSTEIN", img: "https://upload.wikimedia.org/wikipedia/commons/d/d3/Albert_Einstein_Head.jpg" },
+        bo: { name: "OBAMA", img: "https://upload.wikimedia.org/wikipedia/commons/8/8d/President_Barack_Obama.jpg" }
+    };
+
+    function switchPersona(persona, index) {
+        currentPersona = persona;
+        const slider = document.getElementById('personaSlider');
+        const btns = document.querySelectorAll('.p-btn');
+        slider.style.left = `calc(${index * 25}% + 5px)`;
+        btns.forEach(b => b.classList.remove('active'));
+        btns[index].classList.add('active');
+
+        document.getElementById('target-name').innerText = personaMetadata[persona].name;
+        document.getElementById('target-img').style.backgroundImage = `url('${personaMetadata[persona].img}')`;
+        updateComparisonContent();
     }
-    setCompare('roots');
+
+    function setCompare(key, index) {
+        currentTab = key;
+        const slider = document.getElementById('contentSlider');
+        const btns = document.querySelectorAll('.c-btn');
+        slider.style.left = `calc(${index * 20}% + 5px)`;
+        btns.forEach(b => b.classList.remove('active'));
+        btns[index].classList.add('active');
+        updateComparisonContent();
+    }
+
+    function updateComparisonContent() {
+        document.getElementById('cr-content').innerHTML = comparisonData[currentTab].cr;
+        document.getElementById('vk-content').innerHTML = comparisonData[currentTab][currentPersona];
+    }
 
     function showPage(id, btn) {
         document.querySelectorAll('.page-section').forEach(p => p.classList.remove('active-page'));
         document.getElementById(id).classList.add('active-page');
         document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-        
-        if(btn) {
-            btn.classList.add('active');
-        } else {
-            const btns = document.querySelectorAll('.nav-btn');
-            if(id === 'home') btns[0].classList.add('active');
-            if(id === 'migration') btns[1].classList.add('active');
-            if(id === 'timeline') btns[2].classList.add('active');
-            if(id === 'comparison') btns[3].classList.add('active');
-            if(id === 'glossary') btns[4].classList.add('active');
-        }
-
+        if(btn) btn.classList.add('active');
         window.scrollTo({top: 0, behavior: 'smooth'});
         setTimeout(initObserver, 100);
     }
@@ -949,28 +972,14 @@
         showPage('glossary', glossaryBtn);
         setTimeout(() => {
             const element = document.getElementById('def-' + wordId);
-            if (element) {
-                element.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                element.style.background = 'rgba(212, 175, 55, 0.1)';
-                setTimeout(() => element.style.background = 'var(--glass)', 2000);
-            }
+            if (element) element.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }, 500);
     }
 
     function jumpToContext(wordId, pageId) {
         const navIndex = { 'home': 0, 'migration': 1, 'timeline': 2, 'comparison': 3, 'glossary': 4 };
         const targetBtn = document.querySelectorAll('.nav-btn')[navIndex[pageId]];
-        
         showPage(pageId, targetBtn);
-
-        setTimeout(() => {
-            const element = document.getElementById('ctx-' + wordId);
-            if (element) {
-                element.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                element.classList.add('jump-highlight');
-                setTimeout(() => element.classList.remove('jump-highlight'), 2100);
-            }
-        }, 600);
     }
 
     function initObserver() {
@@ -981,29 +990,14 @@
         }, { threshold: 0.1 });
         document.querySelectorAll('.tl-item').forEach(e => observer.observe(e));
     }
+    
     initObserver();
+    updateComparisonContent();
 
     const cursor = document.getElementById('cursor');
-    const dot = document.getElementById('cursorDot');
     document.addEventListener('mousemove', (e) => {
         cursor.style.left = (e.clientX - 12) + 'px';
         cursor.style.top = (e.clientY - 12) + 'px';
-        dot.style.left = (e.clientX - 3) + 'px';
-        dot.style.top = (e.clientY - 3) + 'px';
-    });
-
-    document.querySelectorAll('.mig-card').forEach(card => {
-        card.addEventListener('mousemove', (e) => {
-            const rect = card.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            const rotX = ((y - rect.height/2) / 20) * -1;
-            const rotY = ((x - rect.width/2) / 20);
-            card.style.transform = `perspective(1000px) rotateX(${rotX}deg) rotateY(${rotY}deg)`;
-        });
-        card.addEventListener('mouseleave', () => {
-            card.style.transform = `perspective(1000px) rotateX(0) rotateY(0)`;
-        });
     });
 </script>
 
